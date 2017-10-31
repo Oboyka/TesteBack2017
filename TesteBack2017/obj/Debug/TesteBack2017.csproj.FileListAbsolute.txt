@@ -1,0 +1,10 @@
+D:\Dowloads\Estágio_em_Desenvolvimento_de_Software\TesteBack2017\TesteBack2017\bin\Debug\TesteBack2017.exe.config
+D:\Dowloads\Estágio_em_Desenvolvimento_de_Software\TesteBack2017\TesteBack2017\bin\Debug\TesteBack2017.exe
+D:\Dowloads\Estágio_em_Desenvolvimento_de_Software\TesteBack2017\TesteBack2017\bin\Debug\TesteBack2017.pdb
+D:\Dowloads\Estágio_em_Desenvolvimento_de_Software\TesteBack2017\TesteBack2017\obj\Debug\TesteBack2017.csprojResolveAssemblyReference.cache
+D:\Dowloads\Estágio_em_Desenvolvimento_de_Software\TesteBack2017\TesteBack2017\obj\Debug\TesteBack2017.form_teste_back2017.resources
+D:\Dowloads\Estágio_em_Desenvolvimento_de_Software\TesteBack2017\TesteBack2017\obj\Debug\TesteBack2017.Properties.Resources.resources
+D:\Dowloads\Estágio_em_Desenvolvimento_de_Software\TesteBack2017\TesteBack2017\obj\Debug\TesteBack2017.csproj.GenerateResource.Cache
+D:\Dowloads\Estágio_em_Desenvolvimento_de_Software\TesteBack2017\TesteBack2017\obj\Debug\TesteBack2017.csproj.CoreCompileInputs.cache
+D:\Dowloads\Estágio_em_Desenvolvimento_de_Software\TesteBack2017\TesteBack2017\obj\Debug\TesteBack2017.exe
+D:\Dowloads\Estágio_em_Desenvolvimento_de_Software\TesteBack2017\TesteBack2017\obj\Debug\TesteBack2017.pdb
