@@ -41,6 +41,9 @@
             this.lbl_vl_total = new System.Windows.Forms.Label();
             this.txt_vl_total = new System.Windows.Forms.TextBox();
             this.lbl_msg = new System.Windows.Forms.Label();
+            this.lbl_avg_calculate = new System.Windows.Forms.Label();
+            this.txt_avg_calculate = new System.Windows.Forms.TextBox();
+            this.listViewAvg = new System.Windows.Forms.ListView();
             this.SuspendLayout();
             // 
             // btn_register
@@ -49,7 +52,7 @@
             this.btn_register.Name = "btn_register";
             this.btn_register.Size = new System.Drawing.Size(75, 23);
             this.btn_register.TabIndex = 6;
-            this.btn_register.Text = "Register";
+            this.btn_register.Text = "Registrar";
             this.btn_register.UseVisualStyleBackColor = true;
             this.btn_register.Click += new System.EventHandler(this.btn_register_Click);
             // 
@@ -57,9 +60,9 @@
             // 
             this.btn_avg.Location = new System.Drawing.Point(12, 198);
             this.btn_avg.Name = "btn_avg";
-            this.btn_avg.Size = new System.Drawing.Size(166, 23);
+            this.btn_avg.Size = new System.Drawing.Size(175, 23);
             this.btn_avg.TabIndex = 7;
-            this.btn_avg.Text = "Avg between id (1500 e 2700)";
+            this.btn_avg.Text = "Média entre os ids (1500 e 2700)";
             this.btn_avg.UseVisualStyleBackColor = true;
             this.btn_avg.Click += new System.EventHandler(this.btn_avg_Click);
             // 
@@ -150,15 +153,42 @@
             this.lbl_msg.AutoSize = true;
             this.lbl_msg.Location = new System.Drawing.Point(9, 170);
             this.lbl_msg.Name = "lbl_msg";
-            this.lbl_msg.Size = new System.Drawing.Size(9, 13);
+            this.lbl_msg.Size = new System.Drawing.Size(0, 13);
             this.lbl_msg.TabIndex = 12;
-            this.lbl_msg.Text = "\'";
+            // 
+            // lbl_avg_calculate
+            // 
+            this.lbl_avg_calculate.AutoSize = true;
+            this.lbl_avg_calculate.Location = new System.Drawing.Point(202, 203);
+            this.lbl_avg_calculate.Name = "lbl_avg_calculate";
+            this.lbl_avg_calculate.Size = new System.Drawing.Size(88, 13);
+            this.lbl_avg_calculate.TabIndex = 13;
+            this.lbl_avg_calculate.Text = "Média calculada:";
+            // 
+            // txt_avg_calculate
+            // 
+            this.txt_avg_calculate.Enabled = false;
+            this.txt_avg_calculate.Location = new System.Drawing.Point(296, 198);
+            this.txt_avg_calculate.Name = "txt_avg_calculate";
+            this.txt_avg_calculate.Size = new System.Drawing.Size(100, 20);
+            this.txt_avg_calculate.TabIndex = 14;
+            // 
+            // listViewAvg
+            // 
+            this.listViewAvg.Location = new System.Drawing.Point(12, 227);
+            this.listViewAvg.Name = "listViewAvg";
+            this.listViewAvg.Size = new System.Drawing.Size(406, 145);
+            this.listViewAvg.TabIndex = 15;
+            this.listViewAvg.UseCompatibleStateImageBehavior = false;
             // 
             // form_teste_back2017
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(410, 356);
+            this.ClientSize = new System.Drawing.Size(430, 384);
+            this.Controls.Add(this.listViewAvg);
+            this.Controls.Add(this.txt_avg_calculate);
+            this.Controls.Add(this.lbl_avg_calculate);
             this.Controls.Add(this.lbl_msg);
             this.Controls.Add(this.txt_vl_total);
             this.Controls.Add(this.lbl_vl_total);
@@ -195,6 +225,9 @@
         private System.Windows.Forms.Label lbl_vl_total;
         private System.Windows.Forms.TextBox txt_vl_total;
         private System.Windows.Forms.Label lbl_msg;
+        private System.Windows.Forms.Label lbl_avg_calculate;
+        private System.Windows.Forms.TextBox txt_avg_calculate;
+        private System.Windows.Forms.ListView listViewAvg;
     }
 }
 
