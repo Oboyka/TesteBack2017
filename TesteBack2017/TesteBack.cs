@@ -13,7 +13,8 @@ namespace TesteBack2017
         }
 
         private void form_teste_back2017_Load(object sender, EventArgs e)
-        {
+        {            
+            
         }
 
         private void btn_avg_Click(object sender, EventArgs e)
@@ -23,6 +24,33 @@ namespace TesteBack2017
             txt_id_customer.Enabled = false;
             txt_vl_total.Enabled = false;
             txt_nm_customer.Enabled = false;
+
+            //Consulta a média entre ids 1500 e 2700 e valor > 560:
+            using (SqlConnection conn = BDConnection.OpenConnection())
+            {
+                // Cria um comando para inserir um novo registro à tabela
+                using (SqlCommand cmd = new SqlCommand("SELECT AVG(vl_total) FROM tb_customer_account WHERE vl_total > 560 AND id_customer BETWEEN 1500 AND 2700", conn))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read() == true)
+                        {
+                            decimal media = reader.GetDecimal(0);
+                            txt_avg_calculate.Text = media.ToString();
+                        }
+                        else
+                        {
+                            txt_avg_calculate.Text = "Não houve resultados.";
+                        }
+                    }
+                }
+            }
+
+            txt_active.Enabled = true;
+            txt_cpf_cnpj.Enabled = true;
+            txt_id_customer.Enabled = true;
+            txt_vl_total.Enabled = true;
+            txt_nm_customer.Enabled = true;
         }
 
         private void btn_register_Click(object sender, EventArgs e)
@@ -64,7 +92,7 @@ namespace TesteBack2017
                 lbl_msg.Text = "Campo nome inválido";
                 return;
             }
-            
+
             else
             {
                 nome = txt_nm_customer.Text;
@@ -88,7 +116,7 @@ namespace TesteBack2017
                     cmd.Parameters.AddWithValue("@id", id_customer);
                     cmd.Parameters.AddWithValue("@cpf_cnpj", cpf_cnpj);
                     cmd.Parameters.AddWithValue("@nome", nome);
-                    cmd.Parameters.AddWithValue("@ativo",  ativo);
+                    cmd.Parameters.AddWithValue("@ativo", ativo);
                     cmd.Parameters.AddWithValue("@vl_total", valor);
 
                     try
@@ -115,6 +143,6 @@ namespace TesteBack2017
 
         }
 
-
+        
     }
 }
