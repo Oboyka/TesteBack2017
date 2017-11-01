@@ -44,6 +44,11 @@
             this.lbl_avg_calculate = new System.Windows.Forms.Label();
             this.txt_avg_calculate = new System.Windows.Forms.TextBox();
             this.listViewAvg = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // btn_register
@@ -87,9 +92,9 @@
             this.lbl_cpf_cnpj.AutoSize = true;
             this.lbl_cpf_cnpj.Location = new System.Drawing.Point(151, 20);
             this.lbl_cpf_cnpj.Name = "lbl_cpf_cnpj";
-            this.lbl_cpf_cnpj.Size = new System.Drawing.Size(50, 13);
+            this.lbl_cpf_cnpj.Size = new System.Drawing.Size(59, 13);
             this.lbl_cpf_cnpj.TabIndex = 8;
-            this.lbl_cpf_cnpj.Text = "cpf/ cnpj";
+            this.lbl_cpf_cnpj.Text = "CPF/CNPJ";
             // 
             // txt_cpf_cnpj
             // 
@@ -97,7 +102,6 @@
             this.txt_cpf_cnpj.Name = "txt_cpf_cnpj";
             this.txt_cpf_cnpj.Size = new System.Drawing.Size(100, 20);
             this.txt_cpf_cnpj.TabIndex = 2;
-            this.txt_cpf_cnpj.TextChanged += new System.EventHandler(this.txt_cpf_cnpj_TextChanged);
             // 
             // lbl_nm_customer
             // 
@@ -130,7 +134,6 @@
             this.txt_active.Name = "txt_active";
             this.txt_active.Size = new System.Drawing.Size(61, 20);
             this.txt_active.TabIndex = 3;
-            this.txt_active.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // lbl_vl_total
             // 
@@ -175,11 +178,45 @@
             // 
             // listViewAvg
             // 
+            this.listViewAvg.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3,
+            this.columnHeader4,
+            this.columnHeader5});
+            this.listViewAvg.GridLines = true;
             this.listViewAvg.Location = new System.Drawing.Point(12, 227);
             this.listViewAvg.Name = "listViewAvg";
             this.listViewAvg.Size = new System.Drawing.Size(406, 145);
             this.listViewAvg.TabIndex = 15;
             this.listViewAvg.UseCompatibleStateImageBehavior = false;
+            this.listViewAvg.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Id customer";
+            this.columnHeader1.Width = 70;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "CPF/CNPJ";
+            this.columnHeader2.Width = 90;
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "Nome";
+            this.columnHeader3.Width = 90;
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Status Ativo";
+            this.columnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.columnHeader4.Width = 80;
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "Valor total";
+            this.columnHeader5.Width = 90;
             // 
             // form_teste_back2017
             // 
@@ -228,6 +265,11 @@
         private System.Windows.Forms.Label lbl_avg_calculate;
         private System.Windows.Forms.TextBox txt_avg_calculate;
         private System.Windows.Forms.ListView listViewAvg;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
     }
 }
 

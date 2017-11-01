@@ -20,109 +20,78 @@ namespace TesteBack2017
 
         private void btn_avg_Click(object sender, EventArgs e)
         {
-            lbl_msg.Text = "";
-
-            txt_active.Enabled = false;
-            txt_cpf_cnpj.Enabled = false;
-            txt_id_customer.Enabled = false;
-            txt_vl_total.Enabled = false;
-            txt_nm_customer.Enabled = false;
-
-            //Consulta a média entre ids 1500 e 2700 e valor > 560:
-            using (SqlConnection conn = BDConnection.OpenConnection())
+            try
             {
-                // Cria um comando para inserir um novo registro à tabela
-                using (SqlCommand cmd = new SqlCommand("SELECT AVG(vl_total) FROM tb_customer_account WHERE vl_total > 560 AND id_customer BETWEEN 1500 AND 2700", conn))
+                //Consulta a média entre ids 1500 e 2700 e valor > 560:
+                using (SqlConnection conn = BDConnection.OpenConnection())
                 {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    // Cria um comando para inserir um novo registro à tabela
+                    using (SqlCommand cmd = new SqlCommand("SELECT AVG(vl_total) FROM tb_customer_account WHERE vl_total > 560 AND id_customer BETWEEN 1500 AND 2700", conn))
                     {
-                        if (reader.Read() == true)
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            decimal media = reader.GetDecimal(0);
-                            txt_avg_calculate.Text = media.ToString();
-                        }
-                        else
-                        {
-                            txt_avg_calculate.Text = "Não houve resultados.";
+                            if (reader.Read() == true)
+                            {
+                                decimal media = reader.GetDecimal(0);
+                                txt_avg_calculate.Text = "R$ " + media.ToString("n2");
+                            }
+                            else
+                            {
+                                MessageBox.Show($"Não houve resultados.", "Oops...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
                         }
                     }
                 }
             }
-
-            txt_active.Enabled = true;
-            txt_cpf_cnpj.Enabled = true;
-            txt_id_customer.Enabled = true;
-            txt_vl_total.Enabled = true;
-            txt_nm_customer.Enabled = true;
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Não foi possivel acessar os dados. Erro: {ex.Message}", "Oops...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             //Carrega dados para exibir no list view:
-            DataSet _DataSet;
-            SqlDataAdapter _DataAdapterCustomers;
             try
             {
                 using (SqlConnection conn = BDConnection.OpenConnection())
                 {
                     // Cria um comando para inserir um novo registro à tabela
-                    //using (SqlCommand cmd = new SqlCommand("select id_customer, cpf_cnpj, nm_customer, is_active, vl_total from tb_customer_account where vl_total > 560 and id_customer between 1500 and 2700 order by vl_total desc; ", conn))
-                    //{
-                    string strSQL = "select id_customer, cpf_cnpj, nm_customer, is_active, vl_total from tb_customer_account where vl_total > 560 and id_customer between 1500 and 2700 order by vl_total desc; ";
-                        _DataSet = new DataSet();
-                        _DataAdapterCustomers = new SqlDataAdapter(strSQL, conn);
-                        _DataAdapterCustomers.Fill(_DataSet, "Customers");
-                    //}
+                    using (SqlCommand cmd = new SqlCommand("select id_customer, cpf_cnpj, nm_customer, is_active, vl_total from tb_customer_account where vl_total > 560 and id_customer between 1500 and 2700 order by vl_total desc", conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            listViewAvg.Items.Clear();
+
+                            while (reader.Read())
+                            {
+                                // Define os itens da lista
+                                ListViewItem lvi = new ListViewItem(reader.GetInt32(0).ToString());
+                                lvi.SubItems.Add(reader.GetDecimal(1).ToString());
+                                lvi.SubItems.Add(reader.GetString(2).ToString());
+                                lvi.SubItems.Add(reader.GetString(3).ToString());
+                                lvi.SubItems.Add(reader.GetDecimal(4).ToString());
+
+                                // Inclui os itens no ListView
+                                listViewAvg.Items.Add(lvi);
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
-                lbl_msg.Text = "Não foi possivel acessar os dados.";
+                MessageBox.Show($"Não foi possivel acessar os dados. Erro: {ex.Message}", "Oops...", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            listViewAvg.Clear();
-            listViewAvg.View = View.Details;
-            listViewAvg.GridLines = true;
-          
-            listViewAvg.Columns.Add("Id customer", 70, HorizontalAlignment.Left);
-            listViewAvg.Columns.Add("cpf_cnpj", 70, HorizontalAlignment.Left);
-            listViewAvg.Columns.Add("Nome customer", 70, HorizontalAlignment.Left);
-            listViewAvg.Columns.Add("Status Ativo", 70, HorizontalAlignment.Left);
-            listViewAvg.Columns.Add("Valor total", 70, HorizontalAlignment.Left);
-
-            DataTable dtable = _DataSet.Tables["Customers"];
-            
-            // limpa o ListView
-            //listViewAvg.Items.Clear();
-
-            // exibe os itens no controle ListView 
-            for (int i = 0; i < dtable.Rows.Count; i++)
-            {
-                DataRow drow = dtable.Rows[i];
-
-                // Somente as linhas que não foram deletadas
-                if (drow.RowState != DataRowState.Deleted)
-                {
-                    // Define os itens da lista
-                    ListViewItem lvi = new ListViewItem(drow["id_customer"].ToString());
-                    lvi.SubItems.Add(drow["cpf_cnpj"].ToString());
-                    lvi.SubItems.Add(drow["nm_customer"].ToString());
-                    lvi.SubItems.Add(drow["is_active"].ToString());
-                    lvi.SubItems.Add(drow["vl_total"].ToString());
-
-                    // Inclui os itens no ListView
-                    listViewAvg.Items.Add(lvi);
-                }
-            }
-
         }
 
         private void btn_register_Click(object sender, EventArgs e)
         {
-            lbl_msg.Text = "";
             //Verifica id_customer:   
             int id_customer;
             if (string.IsNullOrWhiteSpace(txt_id_customer.Text) || int.TryParse(txt_id_customer.Text, out id_customer) == false)
             {
-                lbl_msg.Text = "Campo id customer inválido";
+                MessageBox.Show("Campo id customer inválido.", "Oops...", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -130,81 +99,77 @@ namespace TesteBack2017
             decimal cpf_cnpj;
             if (string.IsNullOrWhiteSpace(txt_cpf_cnpj.Text) || decimal.TryParse(txt_cpf_cnpj.Text, out cpf_cnpj) == false)
             {
-                lbl_msg.Text = "Campo cpf/ cnpj inválido";
+                MessageBox.Show("Campo cpf/ cnpj inválido.", "Oops...", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             //Verifica ativo:
-            char ativo;
-            if (string.IsNullOrWhiteSpace(txt_active.Text) || txt_active.Text.Length > 1 || Char.TryParse(txt_active.Text.ToLower(), out ativo) == false)
+            if (string.IsNullOrWhiteSpace(txt_active.Text) || txt_active.Text.Length > 1)
             {
-                lbl_msg.Text = "Campo ativo inválido";
+                MessageBox.Show("Campo ativo inválido.", "Oops...", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            /*if ((!ativo.Equals('n')))
+
+            char ativo = txt_active.Text.ToLower()[0];
+            if (ativo != 'n' && ativo != 's')
             {
-                lbl_msg.Text = "campo ativo diferente de 's' ou 'n'!";
+                MessageBox.Show("Campo ativo diferente de 's' e 'n'.", "Oops...", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            }   */
+            }
 
             //verifica nome:
-            string nome;
-            if (string.IsNullOrWhiteSpace(txt_nm_customer.Text) || txt_nm_customer.Text.Length > 50)
+            string nome = txt_nm_customer.Text;
+            if (string.IsNullOrWhiteSpace(nome) || nome.Length > 50)
             {
-                lbl_msg.Text = "Campo nome inválido";
+                MessageBox.Show("Campo nome inválido.", "Oops...", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            }
-
-            else
-            {
-                nome = txt_nm_customer.Text;
             }
 
             //Verifica valor:
             float valor;
             if (string.IsNullOrWhiteSpace(txt_vl_total.Text) || float.TryParse(txt_vl_total.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out valor) == false)
             {
-                lbl_msg.Text = "Campo valor inválido";
+                MessageBox.Show("Campo valor inválido.", "Oops...", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            //insere valores na base de dados:
-            using (SqlConnection conn = BDConnection.OpenConnection())
+            try
             {
-                // Cria um comando para inserir um novo registro à tabela
-                using (SqlCommand cmd = new SqlCommand("INSERT INTO tb_customer_account (id_customer, cpf_cnpj, nm_customer, is_active, vl_total) VALUES (@id, @cpf_cnpj, @nome, @ativo, @vl_total)", conn))
+                //insere valores na base de dados:
+                using (SqlConnection conn = BDConnection.OpenConnection())
                 {
-                    // Esses valores poderiam vir de qualquer outro lugar, como uma TextBox...
-                    cmd.Parameters.AddWithValue("@id", id_customer);
-                    cmd.Parameters.AddWithValue("@cpf_cnpj", cpf_cnpj);
-                    cmd.Parameters.AddWithValue("@nome", nome);
-                    cmd.Parameters.AddWithValue("@ativo", ativo);
-                    cmd.Parameters.AddWithValue("@vl_total", valor);
+                    // Cria um comando para inserir um novo registro à tabela
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO tb_customer_account (id_customer, cpf_cnpj, nm_customer, is_active, vl_total) VALUES (@id, @cpf_cnpj, @nome, @ativo, @vl_total)", conn))
+                    {
+                        // Esses valores poderiam vir de qualquer outro lugar, como uma TextBox...
+                        cmd.Parameters.AddWithValue("@id", id_customer);
+                        cmd.Parameters.AddWithValue("@cpf_cnpj", cpf_cnpj);
+                        cmd.Parameters.AddWithValue("@nome", nome);
+                        cmd.Parameters.AddWithValue("@ativo", ativo);
+                        cmd.Parameters.AddWithValue("@vl_total", valor);
 
-                    try
-                    {
                         cmd.ExecuteNonQuery();
-                        lbl_msg.Text = "Dados inseridos com sucesso";
-                    }
-                    catch (System.Data.SqlClient.SqlException ex)
-                    {
-                        lbl_msg.Text = "Erro: id inválido.";
-                        return;
+
+                        MessageBox.Show("Dados inseridos com sucesso.", "Bacana...", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627)
+                {
+                    MessageBox.Show($"Chave duplicada (id customer)!", "Oops...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show($"Erro ao inserir os dados: {ex.Message}", "Oops...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao inserir os dados: {ex.Message}", "Oops...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txt_cpf_cnpj_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
 
     }
 }
